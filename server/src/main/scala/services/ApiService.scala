@@ -53,9 +53,9 @@ class ApiService extends Api {
 
 
   var chapters = Seq(
-    Chapter("1", "Introduction to companies"),
-    Chapter("2", "Sources of company law"),
-    Chapter("3", "Corporate personality")
+    Chapter("1", "Introduction to companies", ""),
+    Chapter("2", "Sources of company law", ""),
+    Chapter("3", "Corporate personality", "")
   )
 
   override def createChapter(chapter: Chapter) = {
