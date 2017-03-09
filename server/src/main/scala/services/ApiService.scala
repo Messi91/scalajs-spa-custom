@@ -48,4 +48,38 @@ class ApiService extends Api {
     todos = todos.filterNot(_.id == itemId)
     todos
   }
+
+
+
+
+  var chapters = Seq(
+    Chapter("1", "Introduction to companies"),
+    Chapter("2", "Sources of company law"),
+    Chapter("3", "Corporate personality")
+  )
+
+  override def createChapter(chapter: Chapter) = {
+    val newChapter = chapter.copy(id = UUID.randomUUID().toString)
+    todos :+= newChapter
+  }
+
+  override def retrieveAllChapters: Seq[Chapter] = {
+    chapters
+  }
+
+  override def updateChapter(chapter: Chapter): Seq[Chapter] = {
+    // TODO, update database etc :)
+    if(chapters.exists(_.id == chapter.id)) {
+      chapters = chapters.collect {
+        case chosen if chosen.id == chapter.id => chapter
+        case other => other
+      }
+    }
+    chapters
+  }
+
+  override def deleteChapter(id: String): Seq[Chapter] = {
+    chapters = chapters.filterNot(_.id == id)
+    chapters
+  }
 }

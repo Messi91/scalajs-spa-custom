@@ -12,4 +12,15 @@ trait Api {
 
   // delete a Todo
   def deleteTodo(itemId: String): Seq[TodoItem]
+
+
+
+
+  def createChapter(chapter: Chapter)
+
+  def retrieveAllChapters: Seq[Chapter]
+
+  def updateChapter(chapter: Chapter): Seq[Chapter]
+
+  def deleteChapter(id: String): Seq[Chapter]
 }
