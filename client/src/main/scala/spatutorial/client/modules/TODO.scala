@@ -64,6 +64,37 @@ object Todo {
   def apply(proxy: ModelProxy[Pot[Todos]]) = component(Props(proxy))
 }
 
+object Chapter {
+
+  case class Props(proxy: ModelProxy[Pot[Chapters]])
+
+  case class State(selectedChapter: Option[Chapter] = None, showChapterForm: Boolean = false)
+
+  class Backend(scope: BackendScope[Props, State]) {
+
+    def mounted(props: Props): Callback = {
+      Callback.when(props.proxy().isEmpty)(props.proxy.dispatchCB(RefreshChapters))
+    }
+
+    def editChapter(chapter: Option[Chapter]): Callback = {
+      scope.modState(state => state.copy(selectedChapter = chapter, showChapterForm = true))
+    }
+
+    def chapterEdited(chapter: Chapter, cancelled: Boolean): Callback = {
+      val callback = if(cancelled) {
+        Callback.log("Chapter editing cancelled")
+      } else {
+        Callback.log(s"Chapter editing: $chapter")
+      }
+      callback >> scope.modState(s => s.copy(showChapterForm = false))
+    }
+
+    def render(props: Props, state: State) = {
+      Panel(Panel.Props)
+    }
+  }
+}
+
 object TodoForm {
   // shorthand for styles
   @inline private def bss = GlobalStyles.bootstrapStyles

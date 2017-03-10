@@ -8,6 +8,7 @@ import spatutorial.client.components.GlobalStyles
 import spatutorial.client.logger._
 import spatutorial.client.modules._
 import spatutorial.client.services.SPACircuit
+import spatutorial.shared.Chapter
 
 import scala.scalajs.js
 import scala.scalajs.js.annotation.JSExport
@@ -24,14 +25,18 @@ object SPAMain extends js.JSApp {
 
   case object TodoLoc extends Loc
 
+  case object ChaptersLoc extends Loc
+
   // configure the router
   val routerConfig = RouterConfigDsl[Loc].buildConfig { dsl =>
     import dsl._
 
     val todoWrapper = SPACircuit.connect(_.todos)
+    val chaptersWrapper = SPACircuit.connect(_.chapters)
     // wrap/connect components to the circuit
     (staticRoute(root, DashboardLoc) ~> renderR(ctl => SPACircuit.wrap(_.motd)(proxy => Dashboard(ctl, proxy)))
       | staticRoute("#todo", TodoLoc) ~> renderR(ctl => todoWrapper(Todo(_)))
+      | staticRoute("#chapters", ChaptersLoc) ~> renderR(ctl => chaptersWrapper(Chapter(_)))
       ).notFound(redirectToPage(DashboardLoc)(Redirect.Replace))
   }.renderWith(layout)
 

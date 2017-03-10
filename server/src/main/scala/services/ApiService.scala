@@ -60,7 +60,7 @@ class ApiService extends Api {
 
   override def createChapter(chapter: Chapter) = {
     val newChapter = chapter.copy(id = UUID.randomUUID().toString)
-    todos :+= newChapter
+    chapters :+= newChapter
   }
 
   override def retrieveAllChapters: Seq[Chapter] = {
